@@ -1,7 +1,6 @@
 
 // let HOST = location.origin.replace(/^http/, 'ws')
 // console.log(location.origin);
-let HOST = "ws://localhost:3001";
 let ws;
 var chat = [];
 
@@ -31,7 +30,14 @@ function addMessages()
 function startConnection()
 {
   console.log("Connecting...");
-    ws=new WebSocket(HOST);
+
+  var scheme = "ws";
+  if (document.location.protocol === 'https:') { scheme += 's'; }
+
+  let HOST = scheme+"://servicechat-backend.fly.dev";
+  //let HOST = "ws://localhost:3001";
+  
+  ws=new WebSocket(HOST);
     ws.onopen = () => { 
 
       sessionStorage.setItem('chatEnabled','true');
