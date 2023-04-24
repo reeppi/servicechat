@@ -34,14 +34,14 @@ function startConnection()
   var scheme = "ws";
   if (document.location.protocol === 'https:') { scheme += 's'; }
 
-  let HOST = scheme+"://servicechat-backend.fly.dev";
-  //let HOST = "ws://localhost:3001";
+  let HOST;
+  HOST = scheme+"://servicechat-backend.fly.dev";
+  //HOST = "ws://localhost:3001";
   
   ws=new WebSocket(HOST);
     ws.onopen = () => { 
 
       sessionStorage.setItem('chatEnabled','true');
-
       const user = sessionStorage.getItem('user');
       if ( user ) 
       {
@@ -128,6 +128,7 @@ msgbox.addEventListener('keydown', (e) => {
  if ( e.key == "Enter" && !keydown)
  {
     ws.send(JSON.stringify({event:"MSG","payload":{chat:"",msg:msgbox.value}}));
+    msgbox.value ="";
     keydown=true;
  }
 });
@@ -141,4 +142,5 @@ sendbutton.addEventListener('click', () => {
     console.log("sendbutton");
     console.log("--->"+msgbox.value);
     ws.send(JSON.stringify({event:"MSG","payload":{chat:"",msg:msgbox.value}}));
+    msgbox.value ="";
 });
